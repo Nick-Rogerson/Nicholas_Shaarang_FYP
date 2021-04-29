@@ -1,0 +1,38 @@
+{
+  "shapes": [
+    {
+      "shape_type": "polygon", 
+      "points": [
+        [
+          5.25, 
+          226.5
+        ], 
+        [
+          605.25, 
+          184.13888888888889
+        ], 
+        [
+          630.9444444444445, 
+          195.25
+        ], 
+        [
+          633.7222222222223, 
+          475.8055555555556
+        ], 
+        [
+          5.25, 
+          478.58333333333337
+        ]
+      ], 
+      "flags": {}, 
+      "group_id": null, 
+      "label": "labels.txt"
+    }
+  ], 
+  "imagePath": "../DatasetLaterLabeled/216.png", 
+  "flags": {}, 
+  "version": "4.5.7", 
+  "imageData": null, 
+  "imageWidth": 640, 
+  "imageHeight": 480
+}

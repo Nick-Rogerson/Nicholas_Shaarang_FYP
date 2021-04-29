@@ -1,0 +1,42 @@
+{
+  "shapes": [
+    {
+      "shape_type": "polygon", 
+      "points": [
+        [
+          5.25, 
+          373.72222222222223
+        ], 
+        [
+          417.05555555555554, 
+          270.94444444444446
+        ], 
+        [
+          501.08333333333337, 
+          277.19444444444446
+        ], 
+        [
+          633.0277777777778, 
+          275.80555555555554
+        ], 
+        [
+          635, 
+          479
+        ], 
+        [
+          0, 
+          477
+        ]
+      ], 
+      "flags": {}, 
+      "group_id": null, 
+      "label": "labels.txt"
+    }
+  ], 
+  "imagePath": "../DatasetLaterLabeled/178.png", 
+  "flags": {}, 
+  "version": "4.5.7", 
+  "imageData": null, 
+  "imageWidth": 640, 
+  "imageHeight": 480
+}
