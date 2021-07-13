@@ -31,8 +31,8 @@ def get_transform(self,phase,mean,std):
 class FCNObjectSegmentation:
     def __init__(self):
         self.gpu = 0  # -1 is cpu mode
-        self.pub = rospy.Publisher('/fcn/output', Image, queue_size=1)
-        self.pub_proba = rospy.Publisher('fcn/output/proba_image', Image, queue_size=1)
+        self.pub = rospy.Publisher('/fcn_object_segmentation/output', Image, queue_size=1)
+        self.pub_proba = rospy.Publisher('fcn_object_segmentation/output/proba_image', Image, queue_size=1)
         rospy.init_node('fcn_object_segmentation')
         #self.sub_img = rospy.Subscriber(image_topic, Image, self._cb, queue_size=1, buff_size=2**24)
         self.device = torch.device("cuda")
