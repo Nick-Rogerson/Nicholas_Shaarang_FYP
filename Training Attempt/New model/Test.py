@@ -18,7 +18,7 @@ from sklearn.model_selection import train_test_split
 import segmentation_models_pytorch as smp
 # augmenation library
 from albumentations import (HorizontalFlip, ShiftScaleRotate, Normalize, Resize, Compose, GaussNoise)
-from albumentations.pytorch import ToTensor
+from albumentations.pytorch import ToTensorV2
 # others
 import os
 import pdb
@@ -60,7 +60,7 @@ def get_transform(phase,mean,std):
     list_trans=[]
     if phase=='train':
         list_trans.extend([HorizontalFlip(p=0.5)])
-    list_trans.extend([Normalize(mean=mean,std=std, p=1), ToTensor()])  #normalizing the data & then converting to tensors
+    list_trans.extend([Normalize(mean=mean,std=std, p=1), ToTensorV2()])  #normalizing the data & then converting to tensors
     list_trans=Compose(list_trans)
     return list_trans
 

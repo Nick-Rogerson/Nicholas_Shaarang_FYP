@@ -18,7 +18,8 @@ from sklearn.model_selection import train_test_split
 import segmentation_models_pytorch as smp
 # augmenation library
 from albumentations import (HorizontalFlip, ShiftScaleRotate, Normalize, Resize, Compose, GaussNoise)
-from albumentations.pytorch import ToTensor
+from albumentations.pytorch.transforms import ToTensorV2
+#from torchvision.transforms import ToTensor
 # others
 import os
 import pdb
@@ -40,7 +41,7 @@ torch.manual_seed(seed)
 torch.backends.cudnn.deterministic = True
 
 # Config variables
-pretrained = "True"
+pretrained = "False"
 epochs = 50
 learning_rate = 1e-5
 
@@ -63,7 +64,7 @@ def get_transform(phase,mean,std):
     list_trans=[]
     if phase=='train':
         list_trans.extend([HorizontalFlip(p=0.5)])
-    list_trans.extend([Normalize(mean=mean,std=std, p=1), ToTensor()])  #normalizing the data & then converting to tensors
+    list_trans.extend([Normalize(mean=mean,std=std, p=1), ToTensorV2()])  #normalizing the data & then converting to tensors
     list_trans=Compose(list_trans)
     return list_trans
 
@@ -135,7 +136,7 @@ def epoch_log(epoch_loss, measure):
 ## trainer
 class Trainer(object):
     def __init__(self,model):
-        self.num_workers=4
+        self.num_workers=0
         self.batch_size={'train':1, 'val':1}
         self.accumulation_steps=4//self.batch_size['train']
         self.lr=learning_rate
@@ -161,6 +162,8 @@ class Trainer(object):
     def forward(self, inp_images, tar_mask):
         inp_images=inp_images.to(self.device)
         tar_mask=tar_mask.to(self.device)
+        tar_mask=tar_mask.unsqueeze(1)
+        tar_mask=tar_mask.float()
         pred_mask=self.net(inp_images)
         loss=self.criterion(pred_mask,tar_mask)
         return loss, pred_mask
@@ -294,15 +297,16 @@ class Trainer_pre(object):
                 torch.save(state, ckpt_path)
             print ()
 
-
-## Loading architecture
-model = smp.Unet("resnet18", encoder_weights="imagenet", classes=1, activation=None)
-
-if pretrained == "True":
-        state = torch.load(ckpt_path, map_location=lambda storage, loc: storage)
-        model.load_state_dict(state["state_dict"])
-        model_trainer = Trainer_pre(model)
-        model_trainer.start()
-else:
-        model_trainer = Trainer(model)
-        model_trainer.start()
+if __name__ == '__main__':
+        
+        ## Loading architecture
+        model = smp.Unet("resnet18", encoder_weights="imagenet", classes=1, activation=None)
+        
+        if pretrained == "True":
+                state = torch.load(ckpt_path, map_location=lambda storage, loc: storage)
+                model.load_state_dict(state["state_dict"])
+                model_trainer = Trainer_pre(model)
+                model_trainer.start()
+        else:
+                model_trainer = Trainer(model)
+                model_trainer.start()

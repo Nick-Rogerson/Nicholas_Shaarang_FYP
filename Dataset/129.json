@@ -1,0 +1,38 @@
+{
+  "shapes": [
+    {
+      "shape_type": "polygon", 
+      "points": [
+        [
+          89.04109589041096, 
+          302.35616438356163
+        ], 
+        [
+          67.12328767123287, 
+          359.8904109589041
+        ], 
+        [
+          303, 
+          479
+        ], 
+        [
+          0, 
+          479
+        ], 
+        [
+          0.0, 
+          313.3150684931507
+        ]
+      ], 
+      "flags": {}, 
+      "group_id": null, 
+      "label": "footpath"
+    }
+  ], 
+  "imagePath": "../Dataset/129.png", 
+  "flags": {}, 
+  "version": "4.5.7", 
+  "imageData": null, 
+  "imageWidth": 640, 
+  "imageHeight": 480
+}
