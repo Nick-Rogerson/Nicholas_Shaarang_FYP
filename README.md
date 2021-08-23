@@ -10,3 +10,6 @@ a - prev image
 w - create a ploygon
 del - delete selected box
 ctrl + z - undo
+
+generate dataset
+./labelme2voc.py Dataset data_dataset_voc --labels labels.txt

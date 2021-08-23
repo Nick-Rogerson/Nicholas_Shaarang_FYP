@@ -41,7 +41,7 @@ torch.manual_seed(seed)
 torch.backends.cudnn.deterministic = True
 
 # Config variables
-pretrained = "False"
+pretrained = "false"
 epochs = 50
 learning_rate = 1e-5
 
@@ -108,7 +108,7 @@ def CarDataloader(df,img_fol,mask_fol,mean,std,phase,batch_size,num_workers):
 '''calculates dice scores when Scores class for it'''
 def dice_score(pred, targs):
     pred = (pred>0).float()
-    return 2. * (pred*targs).sum() / (pred+targs).sum()
+    return (2. * (pred*targs).sum() / (pred+targs).sum())
 
 ''' initialize a empty list when Scores is called, append the list with dice scores
 for every batch, at the end of epoch calculates mean of the dice scores'''
@@ -122,21 +122,22 @@ class Scores:
         self.base_dice_scores.append(dice)
 
     def get_metrics(self):
-        dice = np.mean(self.base_dice_scores)         
+        dice = np.mean(self.base_dice_scores)
         return dice
 
 '''return dice score for epoch when called'''
 def epoch_log(epoch_loss, measure):
     '''logging the metrics at the end of an epoch'''
-    dices= measure.get_metrics()    
-    dice= dices                       
+    dices= measure.get_metrics()
+    dice= dices
+    #dice=1-dice
     print("Loss: %0.4f |dice: %0.4f" % (epoch_loss, dice))
     return dice
 
 ## trainer
 class Trainer(object):
     def __init__(self,model):
-        self.num_workers=0
+        self.num_workers=4
         self.batch_size={'train':1, 'val':1}
         self.accumulation_steps=4//self.batch_size['train']
         self.lr=learning_rate
@@ -144,6 +145,7 @@ class Trainer(object):
         self.num_epochs=epochs
         self.phases=['train','val']
         self.best_loss=float('inf')
+        self.best_dice=0
         self.device=torch.device("cuda:0")
         torch.set_default_tensor_type("torch.cuda.FloatTensor")
         self.net=model.to(self.device)
@@ -195,7 +197,7 @@ class Trainer(object):
         self.losses[phase].append(epoch_loss)
         self.dice_score[phase].append(dice)
         torch.cuda.empty_cache()
-        return epoch_loss
+        return epoch_loss, dice
     def start(self):
         for epoch in range (self.num_epochs):
             self.iterate(epoch,"train")
@@ -207,11 +209,13 @@ class Trainer(object):
                 "optimizer": self.optimizer.state_dict(),
             }
             with torch.no_grad():
-                val_loss=self.iterate(epoch,"val")
+                val_loss, dice=self.iterate(epoch,"val")
                 self.scheduler.step(val_loss)
             if val_loss < self.best_loss:
+            #if abs(dice) > abs(self.best_dice):
                 print("******** New optimal found, saving state ********")
                 state["best_loss"] = self.best_loss = val_loss
+                #state["best_dice"] = self.best_dice = dice
                 state["best_epoch"] = self.best_epoch = epoch
                 torch.save(state, "./model_office.pth")
             print ()
@@ -227,6 +231,7 @@ class Trainer_pre(object):
         self.num_epochs=epochs
         self.phases=['train','val']
         self.best_loss=state["best_loss"]
+        self.best_dice=state["best_dice"]
         self.device=torch.device("cuda:0")
         torch.set_default_tensor_type("torch.cuda.FloatTensor")
         self.net=model.to(self.device)
@@ -245,6 +250,8 @@ class Trainer_pre(object):
     def forward(self, inp_images, tar_mask):
         inp_images=inp_images.to(self.device)
         tar_mask=tar_mask.to(self.device)
+        tar_mask=tar_mask.unsqueeze(1)
+        tar_mask=tar_mask.float()
         pred_mask=self.net(inp_images)
         loss=self.criterion(pred_mask,tar_mask)
         return loss, pred_mask
@@ -276,7 +283,8 @@ class Trainer_pre(object):
         self.losses[phase].append(epoch_loss)
         self.dice_score[phase].append(dice)
         torch.cuda.empty_cache()
-        return epoch_loss
+        #dice=1-dice
+        return epoch_loss, dice
     def start(self):
         for epoch in range (self.best_epoch+1, self.num_epochs):
             self.iterate(epoch,"train")
@@ -284,24 +292,38 @@ class Trainer_pre(object):
                 "epoch": epoch,
                 "best_epoch": self.best_epoch,
                 "best_loss": self.best_loss,
+                #"best_dice": self.best_dice
                 "state_dict": self.net.state_dict(),
                 "optimizer": self.optimizer.state_dict(),
             }
             with torch.no_grad():
-                val_loss=self.iterate(epoch,"val")
+                val_loss, dice =self.iterate(epoch,"val")
                 self.scheduler.step(val_loss)
-            if val_loss < self.best_loss:
+            #if abs(val_loss) < abs(self.best_loss):
+            if abs(dice) > abs(self.best_dice):
                 print("******** New optimal found, saving state ********")
-                state["best_loss"] = self.best_loss = val_loss
+                #state["best_loss"] = self.best_loss = val_loss
+                state["best_dice"] = self.best_dice = dice
                 state["best_epoch"] = self.best_epoch = epoch
                 torch.save(state, ckpt_path)
             print ()
 
+# Loading architecture
+# model = smp.Unet("resnet18", encoder_weights="imagenet", classes=1, activation=None)
+#
+# if pretrained == "True":
+#         state = torch.load(ckpt_path, map_location=lambda storage, loc: storage)
+#         model.load_state_dict(state["state_dict"])
+#         model_trainer = Trainer_pre(model)
+#         model_trainer.start()
+# else:
+#         model_trainer = Trainer(model)
+#         model_trainer.start()
 if __name__ == '__main__':
-        
+
         ## Loading architecture
         model = smp.Unet("resnet18", encoder_weights="imagenet", classes=1, activation=None)
-        
+
         if pretrained == "True":
                 state = torch.load(ckpt_path, map_location=lambda storage, loc: storage)
                 model.load_state_dict(state["state_dict"])
