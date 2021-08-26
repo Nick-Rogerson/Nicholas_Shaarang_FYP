@@ -1,0 +1,8 @@
+prefix=/home/nrogerson/Documents/Nicholas_Shaarang_FYP/catkin_ws/devel
+
+Name: jackal_msgs
+Description: Description of jackal_msgs
+Version: 0.7.6
+Cflags: -I/home/nrogerson/Documents/Nicholas_Shaarang_FYP/catkin_ws/devel/include
+Libs: -L${prefix}/lib 
+Requires: std_msgs message_runtime

@@ -1,0 +1,8 @@
+prefix=/home/nrogerson/Documents/Nicholas_Shaarang_FYP/catkin_ws/install
+
+Name: jackal_description
+Description: Description of jackal_description
+Version: 0.7.6
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

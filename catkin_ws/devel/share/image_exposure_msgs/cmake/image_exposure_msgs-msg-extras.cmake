@@ -1,0 +1,2 @@
+set(image_exposure_msgs_MESSAGE_FILES "/home/nrogerson/Documents/Nicholas_Shaarang_FYP/catkin_ws/src/pointgrey_camera_driver/image_exposure_msgs/msg/ExposureSequence.msg;/home/nrogerson/Documents/Nicholas_Shaarang_FYP/catkin_ws/src/pointgrey_camera_driver/image_exposure_msgs/msg/ImageExposureStatistics.msg;/home/nrogerson/Documents/Nicholas_Shaarang_FYP/catkin_ws/src/pointgrey_camera_driver/image_exposure_msgs/msg/SequenceExposureStatistics.msg")
+set(image_exposure_msgs_SERVICE_FILES "")
