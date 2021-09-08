@@ -1,0 +1,10 @@
+<launch>
+  <node pkg="footpath_segmentation" type="Segmentation.py" name="segmentation" output="screen">
+
+      <rosparam subst_value="true">
+          model_file: $(find footpath_segmentation)/src/Outdoor.pth
+      </rosparam>
+
+  </node>
+  <node pkg="image_processing" type="depth_to_pc2" name="depth_to_pc2" output="screen"/>
+</launch>

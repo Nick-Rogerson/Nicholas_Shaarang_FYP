@@ -1,0 +1,8 @@
+prefix=/home/nrogerson/Documents/Nicholas_Shaarang_FYP/jackal_ws/install
+
+Name: footpath_segmentation
+Description: Description of footpath_segmentation
+Version: 1.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

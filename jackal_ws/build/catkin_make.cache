@@ -1,0 +1,2 @@
+footpath_segmentation:image_processing
+-DCATKIN_DEVEL_PREFIX=/home/nrogerson/Documents/Nicholas_Shaarang_FYP/jackal_ws/devel -DCMAKE_INSTALL_PREFIX=/home/nrogerson/Documents/Nicholas_Shaarang_FYP/jackal_ws/install -G Unix Makefiles

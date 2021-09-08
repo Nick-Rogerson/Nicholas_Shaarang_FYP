@@ -14,7 +14,7 @@ from albumentations import (HorizontalFlip, ShiftScaleRotate, Normalize, Resize,
 from albumentations.pytorch import ToTensorV2
 
 
-image_topic = "/camera/color/image_raw"
+image_topic = "/camera/color/image_raw/compressed"
 
 
 
