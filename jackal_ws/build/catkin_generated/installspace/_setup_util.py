@@ -268,7 +268,7 @@ if __name__ == '__main__':
 
         if not args.local:
             # environment at generation time
-            CMAKE_PREFIX_PATH = r'/home/nrogerson/Documents/Nicholas_Shaarang_FYP/jackal_ws/devel;/home/nrogerson/cvbridge_build_ws/install;/opt/ros/melodic'.split(';')
+            CMAKE_PREFIX_PATH = r'/home/nrogerson/Documents/Nicholas_Shaarang_FYP/jackal_ws/devel;/home/nrogerson/Documents/FYP/catkin_ws/devel;/home/nrogerson/cvbridge_build_ws/install;/opt/ros/melodic'.split(';')
         else:
             # don't consider any other prefix path than this one
             CMAKE_PREFIX_PATH = []

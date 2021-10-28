@@ -8,3 +8,4 @@
 
 # modified environment variables
 export PWD='/home/nrogerson/Documents/Nicholas_Shaarang_FYP/jackal_ws/build'
+export PYTHONPATH='/home/nrogerson/Documents/Nicholas_Shaarang_FYP/jackal_ws/devel/lib/python2.7/dist-packages:/home/nrogerson/Documents/FYP/catkin_ws/devel/lib/python2.7/dist-packages:/opt/ros/melodic/lib/python2.7/dist-packages:/home/nrogerson/cvbridge_build_ws/install/lib/python3/dist-packages'

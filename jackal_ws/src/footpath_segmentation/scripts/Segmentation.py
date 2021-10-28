@@ -14,13 +14,13 @@ import segmentation_models_pytorch as smp
 # augmenation library
 from albumentations import (HorizontalFlip, ShiftScaleRotate, Normalize, Resize, Compose, GaussNoise)
 from albumentations.pytorch import ToTensorV2
-
+import sys
 
 image_topic = "/camera/color/image_raw/compressed"
 
 
 
-
+print(sys.version)
 
 
 def get_transform(phase,mean,std):

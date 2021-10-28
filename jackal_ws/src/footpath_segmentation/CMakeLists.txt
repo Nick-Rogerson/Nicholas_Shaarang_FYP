@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   message_filters
   rospy
   sensor_msgs
+  yaml
   #vision_opencv
 )
 

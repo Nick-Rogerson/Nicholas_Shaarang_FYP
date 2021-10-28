@@ -7,4 +7,5 @@
 
   </node>
   <node pkg="image_processing" type="depth_to_pc2" name="depth_to_pc2" output="screen"/>
+  <include file="$(find footpath_segmentation)/launch/pc2l.launch"/>
 </launch>
